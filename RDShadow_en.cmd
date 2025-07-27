@@ -16,8 +16,12 @@ echo   ║  How do you want to control the user session?                ║
 echo   ║                                                              ║
 echo   ║  [1] With user access permission                             ║
 echo   ║  [2] Without user access permission                          ║
-echo   ║  [9] List connected users                                    ║
-echo   ║  [0] Exit                                                    ║
+echo   ║                                                              ║
+echo   ║  [9] List connected users (view only)                        ║
+echo   ║                                                              ║
+echo   ║  [0] Configure Shadow permissions                            ║
+echo   ║                                                              ║
+echo   ║  [X] Exit                                                    ║
 echo   ║                                                              ║
 echo   ╚══════════════════════════════════════════════════════════════╝
 echo.
@@ -26,7 +30,8 @@ set /p "option=Choose an option: "
 if "%option%"=="1" goto connect_with_permission
 if "%option%"=="2" goto connect_without_permission  
 if "%option%"=="9" goto list_users
-if "%option%"=="0" goto exit_program
+if "%option%"=="0" goto configure_shadow
+if /i "%option%"=="x" goto exit_program
 goto invalid_option
 
 :connect_with_permission
@@ -46,7 +51,7 @@ if /i "%session_id%"=="x" goto menu
 if "%session_id%"=="" (
     echo.
     echo ❌ Session ID cannot be empty!
-    pause
+    timeout /t 2 >nul
     goto menu
 )
 
@@ -72,7 +77,7 @@ if /i "%session_id%"=="x" goto menu
 if "%session_id%"=="" (
     echo.
     echo ❌ Session ID cannot be empty!
-    pause
+    timeout /t 2 >nul
     goto menu
 )
 
@@ -105,6 +110,72 @@ echo 🔗 Connecting to session %session_id%...
 mstsc /shadow:%session_id% /noConsentPrompt
 goto menu
 
+:configure_shadow
+cls
+echo.
+echo   ╔══════════════════════════════════════════════════════════════╗
+echo   ║               Shadow Permissions Configuration               ║
+echo   ╠══════════════════════════════════════════════════════════════╣
+echo   ║                                                              ║
+echo   ║  Choose the Shadow permission level:                         ║
+echo   ║                                                              ║
+echo   ║  [0] Disable Shadow                                          ║
+echo   ║                                                              ║
+echo   ║  [1] Full control with consent                               ║
+echo   ║  [2] Full control without consent                            ║
+echo   ║                                                              ║
+echo   ║  [3] View only with consent                                  ║
+echo   ║  [4] View only without consent                               ║
+echo   ║                                                              ║
+echo   ║  [X] Back to main menu                                       ║
+echo   ║                                                              ║
+echo   ╚══════════════════════════════════════════════════════════════╝
+echo.
+set /p "shadow_option=Choose an option: "
+
+if /i "%shadow_option%"=="x" goto menu
+if "%shadow_option%"=="0" goto set_shadow_0
+if "%shadow_option%"=="1" goto set_shadow_1
+if "%shadow_option%"=="2" goto set_shadow_2
+if "%shadow_option%"=="3" goto set_shadow_3
+if "%shadow_option%"=="4" goto set_shadow_4
+goto invalid_option
+
+:set_shadow_0
+echo.
+reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows NT\Terminal Services" /v Shadow /t REG_DWORD /d 0 /f
+echo ✅ Shadow disabled successfully!
+timeout /t 2 >nul
+goto menu
+
+:set_shadow_1
+echo.
+reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows NT\Terminal Services" /v Shadow /t REG_DWORD /d 1 /f
+echo ✅ Shadow configured for full control with consent!
+timeout /t 2 >nul
+goto menu
+
+:set_shadow_2
+echo.
+reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows NT\Terminal Services" /v Shadow /t REG_DWORD /d 2 /f
+echo ✅ Shadow configured for full control without consent!
+timeout /t 2 >nul
+goto menu
+
+:set_shadow_3
+echo.
+reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows NT\Terminal Services" /v Shadow /t REG_DWORD /d 3 /f
+echo ✅ Shadow configured for view only with consent!
+timeout /t 2 >nul
+goto menu
+
+:set_shadow_4
+echo.
+reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows NT\Terminal Services" /v Shadow /t REG_DWORD /d 4 /f
+echo ✅ Shadow configured for view only without consent!
+timeout /t 2 >nul
+goto menu
+
 :invalid_option
 cls
 echo.
@@ -116,7 +187,7 @@ echo   ║         Invalid option! Please choose a valid option.        ║
 echo   ║                                                              ║
 echo   ╚══════════════════════════════════════════════════════════════╝
 echo.
-pause
+timeout /t 2 >nul
 goto menu
 
 :exit_program

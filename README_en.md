@@ -13,6 +13,7 @@ A simple and elegant tool to connect and control Remote Desktop (RDP) sessions o
   - With user permission (user sees notification)
   - Without user permission (silent connection)
 - **Complete listing**: View connected users and system sessions
+- **Permission configuration**: Configure Shadow permissions directly in Windows registry
 - **Intuitive navigation**: X option to return to menu on any screen
 - **Responsive visual**: Colors and emojis for better experience
 
@@ -24,8 +25,9 @@ A simple and elegant tool to connect and control Remote Desktop (RDP) sessions o
 3. Choose one of the menu options:
    - **[1]** With user access permission
    - **[2]** Without user access permission
-   - **[9]** List connected users
-   - **[0]** Exit
+   - **[9]** List connected users (view only)
+   - **[0]** Configure Shadow permissions
+   - **[X]** Exit
 
 ### Option 2: Executable (.exe)
 1. Go to the [Releases](https://github.com/junglivre/RDShadow/releases/latest) section
@@ -46,6 +48,12 @@ A simple and elegant tool to connect and control Remote Desktop (RDP) sessions o
 - Session IDs are shown in `query user` and `qwinsta` commands
 - Option **[2]** connects without notifying the user (useful for technical support)
 - Option **[9]** is ideal for viewing all available sessions
+- Use option **[0]** to configure Shadow permissions in the registry:
+  - **[0]** Disable Shadow
+  - **[1]** Full control with consent
+  - **[2]** Full control without consent
+  - **[3]** View only with consent
+  - **[4]** View only without consent
 
 ## 📖 Commands used
 
@@ -53,6 +61,7 @@ A simple and elegant tool to connect and control Remote Desktop (RDP) sessions o
 - `qwinsta` - Lists all system sessions
 - `mstsc /shadow:ID /control` - Connects to session with control
 - `mstsc /shadow:ID /control /noconsentprompt` - Connects without permission
+- `reg add` - Configures Shadow permissions in Windows registry
 
 ## 🔧 Available versions
 

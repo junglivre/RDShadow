@@ -13,6 +13,7 @@ Uma ferramenta simples e elegante para conectar e controlar sessões de Remote D
   - Com permissão do usuário (usuário vê notificação)
   - Sem permissão do usuário (conexão silenciosa)
 - **Listagem completa**: Visualize usuários conectados e sessões do sistema
+- **Configuração de permissões**: Configure as permissões de sombreamento diretamente no registro do Windows
 - **Navegação intuitiva**: Opção X para voltar ao menu em qualquer tela
 - **Visual responsivo**: Cores e emojis para melhor experiência
 
@@ -24,8 +25,9 @@ Uma ferramenta simples e elegante para conectar e controlar sessões de Remote D
 3. Escolha uma das opções do menu:
    - **[1]** Com permissão de acesso do usuário
    - **[2]** Sem permissão de acesso do usuário  
-   - **[9]** Listar usuários conectados
-   - **[0]** Sair
+   - **[9]** Listar usuários conectados (apenas visualização)
+   - **[0]** Configurar permissões de sombreamento
+   - **[X]** Sair
 
 ### Opção 2: Executável (.exe)
 1. Vá para a seção [Releases](https://github.com/junglivre/RDShadow/releases/latest)
@@ -46,6 +48,12 @@ Uma ferramenta simples e elegante para conectar e controlar sessões de Remote D
 - IDs de sessão são mostrados nos comandos `query user` e `qwinsta`
 - A opção **[2]** conecta sem avisar o usuário (útil para suporte técnico)
 - A opção **[9]** é ideal para visualizar todas as sessões disponíveis
+- Use a opção **[0]** para configurar as permissões de sombreamento no registro:
+  - **[0]** Desabilitar sombreamento
+  - **[1]** Controle total, com consentimento
+  - **[2]** Controle total, sem consentimento
+  - **[3]** Apenas visualização, com consentimento
+  - **[4]** Apenas visualização, sem consentimento
 
 ## 📖 Comandos utilizados
 
@@ -53,6 +61,7 @@ Uma ferramenta simples e elegante para conectar e controlar sessões de Remote D
 - `qwinsta` - Lista todas as sessões do sistema  
 - `mstsc /shadow:ID /control` - Conecta à sessão com controle
 - `mstsc /shadow:ID /control /noconsentprompt` - Conecta sem permissão
+- `reg add` - Configura permissões de sombreamento no registro do Windows
 
 ## 🔧 Versões disponíveis
 
